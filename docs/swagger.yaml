@@ -1,0 +1,169 @@
+basePath: /
+consumes:
+- application/json
+definitions:
+  main.Message:
+    properties:
+      error:
+        type: string
+      message:
+        type: string
+    type: object
+  main.Recipe:
+    properties:
+      id:
+        type: string
+      ingredients:
+        items:
+          type: string
+        type: array
+      instructions:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      publishedAt:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+    type: object
+host: localhost:8080
+info:
+  contact:
+    name: Daniel Petersen
+  description: This is a sample recipes api.
+  title: Recipes API
+  version: 1.0.0
+paths:
+  /recipes:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            items:
+              $ref: '#/definitions/main.Recipe'
+            type: array
+        "500":
+          description: Server Error
+          schema:
+            $ref: '#/definitions/main.Message'
+      summary: get list of recipes
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Recipe to add
+        in: body
+        name: recipe
+        required: true
+        schema:
+          $ref: '#/definitions/main.Recipe'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/main.Recipe'
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/main.Message'
+        "500":
+          description: Server Error
+          schema:
+            $ref: '#/definitions/main.Message'
+      summary: Create a new recipe
+  /recipes/{id}:
+    delete:
+      parameters:
+      - description: ID of the recipe
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/main.Message'
+        "404":
+          description: Invalid recipe ID
+          schema:
+            $ref: '#/definitions/main.Message'
+        "500":
+          description: Server Error
+          schema:
+            $ref: '#/definitions/main.Message'
+      summary: delete an existing recipe
+    get:
+      parameters:
+      - description: ID of the recipe
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/main.Recipe'
+        "404":
+          description: Invalid recipe ID
+          schema:
+            $ref: '#/definitions/main.Message'
+        "500":
+          description: Server Error
+          schema:
+            $ref: '#/definitions/main.Message'
+      summary: get one recipe
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID of the recipe
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated recipe
+        in: body
+        name: recipe
+        required: true
+        schema:
+          $ref: '#/definitions/main.Recipe'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/main.Message'
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/main.Message'
+        "404":
+          description: Invalid recipe ID
+          schema:
+            $ref: '#/definitions/main.Message'
+        "500":
+          description: Server Error
+          schema:
+            $ref: '#/definitions/main.Message'
+      summary: update an existing recipe
+produces:
+- application/json
+schemes:
+- http
+swagger: "2.0"
